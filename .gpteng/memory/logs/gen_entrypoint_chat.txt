@@ -1,0 +1,813 @@
+
+2024-06-13T11:53:26.313616
+================================ System Message ================================
+
+You will get information about a codebase that is currently on disk in the current folder.
+The user will ask you to write a script that runs the code in a specific way.
+You will answer with code blocks that include all the necessary terminal commands.
+Do not install globally. Do not use sudo.
+Do not explain the code, just give the commands.
+Do not use placeholders, use example values (like . for a folder argument) if necessary.
+
+
+================================ Human Message =================================
+
+
+        Make a unix script that
+        a) installs dependencies
+        b) runs all necessary parts of the codebase (in parallel if necessary)
+        
+Information about the codebase:
+
+```
+File: Structure
+1 django0001/
+2 django0001/
+3 settings.py
+4 urls.py
+5 wsgi.py
+6 __init__.py
+7 shop/
+8 models.py
+9 views.py
+10 templates/
+11 shop/
+12 index.html
+13 __init__.py
+14 __pycache__/
+15 manage.py
+16 requirements.txt
+17 Dockerfile
+18 docker-compose.yml
+
+File: manage.py
+1 #!/usr/bin/env python
+2 import os
+3 import sys
+4 
+5 if __name__ == "__main__":
+6     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "django0001.settings")
+7     try:
+8         from django.core.management import execute_from_command_line
+9     except ImportError as exc:
+10         raise ImportError(
+11             "Couldn't import Django. Are you sure it's installed and "
+12             "available on your PYTHONPATH environment variable? Did you "
+13             "forget to activate a virtual environment?"
+14         ) from exc
+15     execute_from_command_line(sys.argv)
+
+File: settings.py
+1 import os
+2 
+3 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+4 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+5 
+6 # Quick-start development settings - unsuitable for production
+7 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
+8 
+9 # SECURITY WARNING: keep the secret key used in production secret!
+10 SECRET_KEY = 'your_secret_key_here'
+11 
+12 # SECURITY WARNING: don't run with debug turned on in production!
+13 DEBUG = True
+14 
+15 ALLOWED_HOSTS = []
+16 
+17 # Application definition
+18 
+19 INSTALLED_APPS = [
+20     'django.contrib.admin',
+21     'django.contrib.auth',
+22     'django.contrib.contenttypes',
+23     'django.contrib.sessions',
+24     'django.contrib.messages',
+25     'django.contrib.staticfiles',
+26     'shop',
+27 ]
+28 
+29 MIDDLEWARE = [
+30     'django.middleware.security.SecurityMiddleware',
+31     'django.contrib.sessions.middleware.SessionMiddleware',
+32     'django.middleware.common.CommonMiddleware',
+33     'django.middleware.csrf.CsrfViewMiddleware',
+34     'django.contrib.auth.middleware.AuthenticationMiddleware',
+35     'django.contrib.messages.middleware.MessageMiddleware',
+36     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+37 ]
+38 
+39 ROOT_URLCONF = 'django0001.urls'
+40 
+41 TEMPLATES = [
+42     {
+43         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+44         'DIRS': [],
+45         'APP_DIRS': True,
+46         'OPTIONS': {
+47             'context_processors': [
+48                 'django.template.context_processors.debug',
+49                 'django.template.context_processors.request',
+50                 'django.contrib.auth.context_processors.auth',
+51                 'django.contrib.messages.context_processors.messages',
+52             ],
+53         },
+54     },
+55 ]
+56 
+57 WSGI_APPLICATION = 'django0001.wsgi.application'
+58 
+59 # Database
+60 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+61 
+62 DATABASES = {
+63     'default': {
+64         'ENGINE': 'django.db.backends.sqlite3',
+65         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+66     }
+67 }
+68 
+69 # Password validation
+70 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
+71 
+72 AUTH_PASSWORD_VALIDATORS = [
+73     {
+74         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+75     },
+76     {
+77         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+78     },
+79     {
+80         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+81     },
+82     {
+83         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+84     },
+85 ]
+86 
+87 # Internationalization
+88 # https://docs.djangoproject.com/en/3.2/topics/i18n/
+89 
+90 LANGUAGE_CODE = 'en-us'
+91 
+92 TIME_ZONE = 'UTC'
+93 
+94 USE_I18N = True
+95 
+96 USE_L10N = True
+97 
+98 USE_TZ = True
+99 
+100 # Static files (CSS, JavaScript, Images)
+101 # https://docs.djangoproject.com/en/3.2/howto/static-files/
+102 
+103 STATIC_URL = '/static/'
+
+File: urls.py
+1 from django.contrib import admin
+2 from django.urls import path, include
+3 
+4 urlpatterns = [
+5     path('admin/', admin.site.urls),
+6     path('', include('shop.urls')),
+7 ]
+
+File: shop/models.py
+1 from django.db import models
+2 
+3 class Shop(models.Model):
+4     name = models.CharField(max_length=255)
+5     category = models.CharField(max_length=255)
+6     subcategory = models.CharField(max_length=255)
+7     price = models.DecimalField(max_digits=10, decimal_places=2)
+
+File: shop/views.py
+1 from django.shortcuts import render
+2 from .models import Shop
+3 
+4 def index(request):
+5     shops = Shop.objects.filter(
+6         category__icontains='Fluorescence',
+7         category__icontains='Carat',
+8         category__icontains='Color Grade',
+9         category__icontains='Cutting Style',
+10         name__icontains='FLUORESCENCE',
+11         category__icontains='Round Brilliant',
+12         subcategory__icontains='CUT PROPORTION',
+13         subcategory__icontains='CUT GRADE',
+14         subcategory__icontains='POLISH',
+15         subcategory__icontains='SYMMETRY',
+16         subcategory__icontains='THIN-MEDIUM',
+17         subcategory__icontains='MEDIUM WHITISH BLUE'
+18     ).filter(price__gte=0, price__lte=4.41)
+19     return render(request, 'shop/index.html', {'shops': shops})
+
+File: shop/templates/shop/index.html
+1 {% extends 'base.html' %}
+2 
+3 {% block content %}
+4   <h1>Search Results</h1>
+5   <ul>
+6     {% for shop in shops %}
+7       <li>{{ shop.name }} ({{ shop.category }}) - {{ shop.price }}</li>
+8     {% endfor %}
+9   </ul>
+10 {% endblock %}
+
+File: Dockerfile
+1 FROM python:3.9-slim
+2 
+3 # Set the working directory to /app
+4 WORKDIR /app
+5 
+6 # Copy the requirements file
+7 COPY requirements.txt .
+8 
+9 # Install the dependencies
+10 RUN pip install -r requirements.txt
+11 
+12 # Copy the application code
+13 COPY . .
+14 
+15 # Expose the port
+16 EXPOSE 8000
+17 
+18 # Run the command to start the development server
+19 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
+File: docker-compose.yml
+1 version: '3'
+2 
+3 services:
+4   web:
+5     build: .
+6     command: python manage.py runserver 0.0.0.0:8000
+7     volumes:
+8       - .:/app
+9     ports:
+10       - "8000:8000"
+11     depends_on:
+12       - db
+13     environment:
+14       - DJANGO_SETTINGS_MODULE=django0001.settings
+15   db:
+16     image: postgres
+17     environment:
+18       - POSTGRES_DB=django0001
+19       - POSTGRES_USER=django
+20       - POSTGRES_PASSWORD=django
+
+File: requirements.txt
+1 Django==3.2.5
+2 psycopg2-binary==2.9.3
+
+```
+
+================================== Ai Message ==================================
+
+Here is the Unix script that installs dependencies and runs the codebase:
+```
+#!/bin/bash
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the Django development server
+python manage.py runserver 0.0.0.0:8000
+```
+Note: This script assumes that you are running it from the root directory of the codebase.
+
+2024-06-13T11:56:20.263229
+================================ System Message ================================
+
+You will get information about a codebase that is currently on disk in the current folder.
+The user will ask you to write a script that runs the code in a specific way.
+You will answer with code blocks that include all the necessary terminal commands.
+Do not install globally. Do not use sudo.
+Do not explain the code, just give the commands.
+Do not use placeholders, use example values (like . for a folder argument) if necessary.
+
+
+================================ Human Message =================================
+
+
+        Make a unix script that
+        a) installs dependencies
+        b) runs all necessary parts of the codebase (in parallel if necessary)
+        
+Information about the codebase:
+
+```
+File: Structure
+1 django0001/
+2 django0001/
+3 settings.py
+4 urls.py
+5 wsgi.py
+6 __init__.py
+7 shop/
+8 models.py
+9 views.py
+10 templates/
+11 shop/
+12 index.html
+13 __init__.py
+14 __pycache__/
+15 manage.py
+16 requirements.txt
+17 Dockerfile
+18 docker-compose.yml
+
+File: manage.py
+1 #!/usr/bin/env python
+2 import os
+3 import sys
+4 
+5 if __name__ == "__main__":
+6     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "django0001.settings")
+7     try:
+8         from django.core.management import execute_from_command_line
+9     except ImportError as exc:
+10         raise ImportError(
+11             "Couldn't import Django. Are you sure it's installed and "
+12             "available on your PYTHONPATH environment variable? Did you "
+13             "forget to activate a virtual environment?"
+14         ) from exc
+15     execute_from_command_line(sys.argv)
+
+File: settings.py
+1 # Django project settings
+2 
+3 # SECURITY WARNING: keep the secret key used in production secret!
+4 SECRET_KEY = 'your_secret_key_here'
+5 
+6 # SECURITY WARNING: don't run with debug turned on in production!
+7 DEBUG = True
+8 
+9 ALLOWED_HOSTS = []
+10 
+11 # Application definition
+12 
+13 INSTALLED_APPS = [
+14     'django.contrib.admin',
+15     'django.contrib.auth',
+16     'django.contrib.contenttypes',
+17     'django.contrib.sessions',
+18     'django.contrib.messages',
+19     'django.contrib.staticfiles',
+20     'shop',
+21 ]
+22 
+23 MIDDLEWARE = [
+24     'django.middleware.security.SecurityMiddleware',
+25     'django.contrib.sessions.middleware.SessionMiddleware',
+26     'django.middleware.common.CommonMiddleware',
+27     'django.middleware.csrf.CsrfViewMiddleware',
+28     'django.contrib.auth.middleware.AuthenticationMiddleware',
+29     'django.contrib.messages.middleware.MessageMiddleware',
+30     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+31 ]
+32 
+33 ROOT_URLCONF = 'django0001.urls'
+34 
+35 TEMPLATES = [
+36     {
+37         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+38         'DIRS': [],
+39         'APP_DIRS': True,
+40         'OPTIONS': {
+41             # ... some options here ...
+42         },
+43     },
+44 ]
+45 
+46 WSGI_APPLICATION = 'django0001.wsgi.application'
+47 
+48 # Database
+49 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+50 
+51 DATABASES = {
+52     'default': {
+53         'ENGINE': 'django.db.backends.sqlite3',
+54         'NAME': 'mydatabase'
+55     }
+56 }
+57 
+58 # Password validation
+59 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
+60 
+61 AUTH_PASSWORD_VALIDATORS = [
+62     {
+63         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+64     },
+65     {
+66         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+67     },
+68     {
+69         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+70     },
+71     {
+72         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+73     },
+74 ]
+75 
+76 # Internationalization
+77 # https://docs.djangoproject.com/en/3.2/topics/i18n/
+78 
+79 LANGUAGE_CODE = 'en-us'
+80 
+81 TIME_ZONE = 'UTC'
+82 
+83 USE_I18N = True
+84 
+85 USE_L10N = True
+86 
+87 USE_TZ = True
+88 
+89 # Static files (CSS, JavaScript, Images)
+90 # https://docs.djangoproject.com/en/3.2/howto/static-files/
+91 
+92 STATIC_URL = '/static/'
+
+File: urls.py
+1 from django.urls import path, include
+2 
+3 urlpatterns = [
+4     path('shop/', include('shop.urls')),
+5 ]
+
+File: shop/models.py
+1 from django.db import models
+2 
+3 class Shop(models.Model):
+4     category = models.CharField(max_length=255)
+5     subcategory = models.CharField(max_length=255)
+6     name = models.CharField(max_length=255)
+7     price = models.DecimalField(max_digits=10, decimal_places=2)
+
+File: shop/views.py
+1 from django.shortcuts import render
+2 from .models import Shop
+3 
+4 def index(request):
+5     shops = Shop.objects.filter(
+6         (Q(category__icontains='Fluorescence') |
+7          Q(category__icontains='Carat') |
+8          Q(category__icontains='Color Grade') |
+9          Q(category__icontains='Cutting Style') |
+10          Q(name__icontains='FLUORESCENCE') |
+11          Q(category__icontains='Round Brilliant') |
+12          Q(subcategory__icontains='CUT PROPORTION') |
+13          Q(subcategory__icontains='CUT GRADE') |
+14          Q(subcategory__icontains='POLISH') |
+15          Q(subcategory__icontains='SYMMETRY') |
+16          Q(subcategory__icontains='THIN-MEDIUM') |
+17          Q(subcategory__icontains='MEDIUM WHITISH BLUE')) &
+18         (Q(price__gte=0) & Q(price__lte=4.41))
+19     return render(request, 'shop/index.html', {'shops': shops})
+
+File: shop/templates/shop/index.html
+1 {% extends 'base.html' %}
+2 
+3 {% block content %}
+4   <h1>Shop</h1>
+5   <ul>
+6     {% for shop in shops %}
+7       <li>{{ shop.name }} ({{ shop.price }})</li>
+8     {% endfor %}
+9   </ul>
+10 {% endblock %}
+
+File: Dockerfile
+1 FROM python:3.9-slim
+2 
+3 # Set the working directory to /app
+4 WORKDIR /app
+5 
+6 # Copy the requirements file
+7 COPY requirements.txt .
+8 
+9 # Install the dependencies
+10 RUN pip install -r requirements.txt
+11 
+12 # Copy the application code
+13 COPY . .
+14 
+15 # Expose the port
+16 EXPOSE 8000
+17 
+18 # Run the command to start the development server
+19 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
+File: docker-compose.yml
+1 version: '3'
+2 
+3 services:
+4   web:
+5     build: .
+6     command: python manage.py runserver 0.0.0.0:8000
+7     volumes:
+8       - .:/app
+9     ports:
+10       - "8000:8000"
+11     depends_on:
+12       - db
+13     environment:
+14       - DJANGO_SETTINGS_MODULE=django0001.settings
+15 
+16   db:
+17     image: postgres
+18     environment:
+19       - POSTGRES_DB=postgres
+20       - POSTGRES_USER=postgres
+21       - POSTGRES_PASSWORD=postgres
+
+File: requirements.txt
+1 Django==3.2.5
+2 psycopg2-binary==2.9.3
+
+```
+
+================================== Ai Message ==================================
+
+Here is the Unix script that installs dependencies and runs the codebase:
+```
+#!/bin/bash
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the Django development server
+python manage.py runserver 0.0.0.0:8000
+```
+Note: This script assumes that you are running it from the root directory of the codebase.
+
+2024-06-13T12:02:43.495654
+================================ System Message ================================
+
+You will get information about a codebase that is currently on disk in the current folder.
+The user will ask you to write a script that runs the code in a specific way.
+You will answer with code blocks that include all the necessary terminal commands.
+Do not install globally. Do not use sudo.
+Do not explain the code, just give the commands.
+Do not use placeholders, use example values (like . for a folder argument) if necessary.
+
+
+================================ Human Message =================================
+
+
+        Make a unix script that
+        a) installs dependencies
+        b) runs all necessary parts of the codebase (in parallel if necessary)
+        
+Information about the codebase:
+
+```
+File: Structure
+1 django0001/
+2 django0001/
+3 settings.py
+4 urls.py
+5 wsgi.py
+6 __init__.py
+7 shop/
+8 models.py
+9 views.py
+10 templates/
+11 shop/
+12 index.html
+13 __init__.py
+14 __pycache__/
+15 manage.py
+16 requirements.txt
+17 Dockerfile
+18 docker-compose.yml
+
+File: manage.py
+1 #!/usr/bin/env python
+2 import os
+3 import sys
+4 
+5 if __name__ == "__main__":
+6     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "django0001.settings")
+7     try:
+8         from django.core.management import execute_from_command_line
+9     except ImportError as exc:
+10         raise ImportError(
+11             "Couldn't import Django. Are you sure it's installed and "
+12             "available on your PYTHONPATH environment variable? Did you "
+13             "forget to activate a virtual environment?"
+14         ) from exc
+15     execute_from_command_line(sys.argv)
+
+File: settings.py
+1 import os
+2 
+3 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+4 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+5 
+6 # Quick-start development settings - unsuitable for production
+7 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
+8 
+9 # SECURITY WARNING: keep the secret key used in production secret!
+10 SECRET_KEY = 'your_secret_key_here'
+11 
+12 # SECURITY WARNING: don't run with debug turned on in production!
+13 DEBUG = True
+14 
+15 ALLOWED_HOSTS = []
+16 
+17 # Application definition
+18 
+19 INSTALLED_APPS = [
+20     'django.contrib.admin',
+21     'django.contrib.auth',
+22     'django.contrib.contenttypes',
+23     'django.contrib.sessions',
+24     'django.contrib.messages',
+25     'django.contrib.staticfiles',
+26     'shop',
+27 ]
+28 
+29 MIDDLEWARE = [
+30     'django.middleware.security.SecurityMiddleware',
+31     'django.contrib.sessions.middleware.SessionMiddleware',
+32     'django.middleware.common.CommonMiddleware',
+33     'django.middleware.csrf.CsrfViewMiddleware',
+34     'django.contrib.auth.middleware.AuthenticationMiddleware',
+35     'django.contrib.messages.middleware.MessageMiddleware',
+36     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+37 ]
+38 
+39 ROOT_URLCONF = 'django0001.urls'
+40 
+41 TEMPLATES = [
+42     {
+43         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+44         'DIRS': [],
+45         'APP_DIRS': True,
+46         'OPTIONS': {
+47             # ... some options here ...
+48         },
+49     },
+50 ]
+51 
+52 WSGI_APPLICATION = 'django0001.wsgi.application'
+53 
+54 # Database
+55 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+56 
+57 DATABASES = {
+58     'default': {
+59         'ENGINE': 'django.db.backends.sqlite3',
+60         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+61     }
+62 }
+63 
+64 # Password validation
+65 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
+66 
+67 AUTH_PASSWORD_VALIDATORS = [
+68     {
+69         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+70     },
+71     {
+72         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+73     },
+74     {
+75         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+76     },
+77     {
+78         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+79     },
+80 ]
+81 
+82 # Internationalization
+83 # https://docs.djangoproject.com/en/3.2/topics/i18n/
+84 
+85 LANGUAGE_CODE = 'en-us'
+86 
+87 TIME_ZONE = 'UTC'
+88 
+89 USE_I18N = True
+90 
+91 USE_L10N = True
+92 
+93 USE_TZ = True
+94 
+95 # Static files (CSS, JavaScript, Images)
+96 # https://docs.djangoproject.com/en/3.2/howto/static-files/
+97 
+98 STATIC_URL = '/static/'
+
+File: urls.py
+1 from django.urls import path, include
+2 
+3 urlpatterns = [
+4     path('', include('shop.urls')),
+5 ]
+
+File: shop/models.py
+1 from django.db import models
+2 
+3 class Shop(models.Model):
+4     category = models.CharField(max_length=255)
+5     subcategory = models.CharField(max_length=255)
+6     name = models.CharField(max_length=255)
+7     price = models.DecimalField(max_digits=10, decimal_places=2)
+
+File: shop/views.py
+1 from django.shortcuts import render
+2 from .models import Shop
+3 
+4 def index(request):
+5     shops = Shop.objects.filter(
+6         (Q(category__icontains='Fluorescence') |
+7          Q(category__icontains='Carat') |
+8          Q(category__icontains='Color Grade') |
+9          Q(category__icontains='Cutting Style') |
+10          Q(name__icontains='FLUORESCENCE') |
+11          Q(category__icontains='Round Brilliant') |
+12          Q(subcategory__icontains='CUT PROPORTION') |
+13          Q(subcategory__icontains='CUT GRADE') |
+14          Q(subcategory__icontains='POLISH') |
+15          Q(subcategory__icontains='SYMMETRY') |
+16          Q(subcategory__icontains='THIN-MEDIUM') |
+17          Q(subcategory__icontains='MEDIUM WHITISH BLUE')) &
+18         (Q(price__gte=0) & Q(price__lte=4.41))
+19     )
+20     return render(request, 'shop/index.html', {'shops': shops})
+
+File: shop/templates/shop/index.html
+1 {% extends 'base.html' %}
+2 
+3 {% block content %}
+4   <h1>Shop List</h1>
+5   <ul>
+6     {% for shop in shops %}
+7       <li>{{ shop.name }} ({{ shop.price }})</li>
+8     {% endfor %}
+9   </ul>
+10 {% endblock %}
+
+File: Dockerfile
+1 FROM python:3.9-slim
+2 
+3 # Set the working directory to /app
+4 WORKDIR /app
+5 
+6 # Copy the requirements file
+7 COPY requirements.txt .
+8 
+9 # Install the dependencies
+10 RUN pip install -r requirements.txt
+11 
+12 # Copy the application code
+13 COPY . .
+14 
+15 # Expose the port
+16 EXPOSE 8000
+17 
+18 # Run the command to start the development server
+19 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
+File: docker-compose.yml
+1 version: '3'
+2 
+3 services:
+4   web:
+5     build: .
+6     command: python manage.py runserver 0.0.0.0:8000
+7     volumes:
+8       - .:/app
+9     ports:
+10       - "8000:8000"
+11     depends_on:
+12       - db
+13     environment:
+14       - DJANGO_SETTINGS_MODULE=django0001.settings
+15   db:
+16     image: postgres
+17     environment:
+18       - POSTGRES_DB=django0001
+19       - POSTGRES_USER=postgres
+20       - POSTGRES_PASSWORD=postgres
+
+File: requirements.txt
+1 Django==3.2.5
+2 psycopg2-binary==2.9.3
+
+```
+
+================================== Ai Message ==================================
+
+Here is the Unix script that installs dependencies and runs the codebase:
+```
+#!/bin/bash
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the Django development server
+python manage.py runserver 0.0.0.0:8000
+```
+Note: This script assumes that you are running it from the root directory of the project.

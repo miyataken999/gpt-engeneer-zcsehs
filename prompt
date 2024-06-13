@@ -1,0 +1,151 @@
+django0001
+1,修正に２０分
+djangoで検索システム
+setting.spy
+manage.pyなどフォルダーなど各自に作成
+dockerでテストする
+sql
+SELECT * 
+FROM shop 
+WHERE 
+  category LIKE '%Fluorescence%' 
+  OR category LIKE '%Carat%' 
+  OR category LIKE '%Color Grade%' 
+  OR category LIKE '%Cutting Style%' 
+  OR name LIKE '%FLUORESCENCE%' 
+  OR category LIKE '%Round Brilliant%' 
+  OR subcategory LIKE '%CUT PROPORTION%' 
+  OR subcategory LIKE '%CUT GRADE%' 
+  OR subcategory LIKE '%POLISH%' 
+  OR subcategory LIKE '%SYMMETRY%' 
+  OR subcategory LIKE '%THIN-MEDIUM%' 
+  OR subcategory LIKE '%MEDIUM WHITISH BLUE%' 
+  AND 
+  (PRICE >= 0 AND PRICE <= 4.41);django0001
+1,修正に２０分
+djangoで検索システム
+setting.spy
+manage.pyなどフォルダーなど各自に作成
+dockerでテストする
+sql
+SELECT * 
+FROM shop 
+WHERE 
+  category LIKE '%Fluorescence%' 
+  OR category LIKE '%Carat%' 
+  OR category LIKE '%Color Grade%' 
+  OR category LIKE '%Cutting Style%' 
+  OR name LIKE '%FLUORESCENCE%' 
+  OR category LIKE '%Round Brilliant%' 
+  OR subcategory LIKE '%CUT PROPORTION%' 
+  OR subcategory LIKE '%CUT GRADE%' 
+  OR subcategory LIKE '%POLISH%' 
+  OR subcategory LIKE '%SYMMETRY%' 
+  OR subcategory LIKE '%THIN-MEDIUM%' 
+  OR subcategory LIKE '%MEDIUM WHITISH BLUE%' 
+  AND 
+  (PRICE >= 0 AND PRICE <= 4.41);django0001
+1,修正に２０分
+djangoで検索システム
+setting.spy
+usr.pyをきちんと作る
+manage.pyなどフォルダーなど各自に作成
+setting.pyなどのパスを合わせる
+dockerでテストする
+sql
+SELECT * 
+FROM shop 
+WHERE 
+  category LIKE '%Fluorescence%' 
+  OR category LIKE '%Carat%' 
+  OR category LIKE '%Color Grade%' 
+  OR category LIKE '%Cutting Style%' 
+  OR name LIKE '%FLUORESCENCE%' 
+  OR category LIKE '%Round Brilliant%' 
+  OR subcategory LIKE '%CUT PROPORTION%' 
+  OR subcategory LIKE '%CUT GRADE%' 
+  OR subcategory LIKE '%POLISH%' 
+  OR subcategory LIKE '%SYMMETRY%' 
+  OR subcategory LIKE '%THIN-MEDIUM%' 
+  OR subcategory LIKE '%MEDIUM WHITISH BLUE%' 
+  AND 
+  (PRICE >= 0 AND PRICE <= 4.41);django0001
+1,修正に２０分
+djangoで検索システム
+setting.spy
+usr.pyをきちんと作る
+manage.pyなどフォルダーなど各自に作成
+setting.pyなどのパスを合わせる
+dockerでテストする
+sql
+SELECT * 
+FROM shop 
+WHERE 
+  category LIKE '%Fluorescence%' 
+  OR category LIKE '%Carat%' 
+  OR category LIKE '%Color Grade%' 
+  OR category LIKE '%Cutting Style%' 
+  OR name LIKE '%FLUORESCENCE%' 
+  OR category LIKE '%Round Brilliant%' 
+  OR subcategory LIKE '%CUT PROPORTION%' 
+  OR subcategory LIKE '%CUT GRADE%' 
+  OR subcategory LIKE '%POLISH%' 
+  OR subcategory LIKE '%SYMMETRY%' 
+  OR subcategory LIKE '%THIN-MEDIUM%' 
+  OR subcategory LIKE '%MEDIUM WHITISH BLUE%' 
+  AND 
+  (PRICE >= 0 AND PRICE <= 4.41);django0001
+1,修正に２０分
+pathにフォルダー名をいれないこと、
+フォルダー以下のファイルをcopyしているのでエラーになる
+djangoで検索システム
+setting.spy
+usr.pyをきちんと作る
+manage.pyなどフォルダーなど各自に作成
+setting.pyなどのパスを合わせる
+dockerでテストする
+sql
+SELECT * 
+FROM shop 
+WHERE 
+  category LIKE '%Fluorescence%' 
+  OR category LIKE '%Carat%' 
+  OR category LIKE '%Color Grade%' 
+  OR category LIKE '%Cutting Style%' 
+  OR name LIKE '%FLUORESCENCE%' 
+  OR category LIKE '%Round Brilliant%' 
+  OR subcategory LIKE '%CUT PROPORTION%' 
+  OR subcategory LIKE '%CUT GRADE%' 
+  OR subcategory LIKE '%POLISH%' 
+  OR subcategory LIKE '%SYMMETRY%' 
+  OR subcategory LIKE '%THIN-MEDIUM%' 
+  OR subcategory LIKE '%MEDIUM WHITISH BLUE%' 
+  AND 
+  (PRICE >= 0 AND PRICE <= 4.41);django0001
+1,修正に２０分
+pathにフォルダー名をいれないこと、
+フォルダー以下のファイルをcopyしているのでエラーになる
+djangoで検索システム
+setting.spy
+usr.pyをきちんと作る
+manage.pyなどフォルダーなど各自に作成
+setting.pyなどのパスを合わせる
+dockerでテストする
+sql
+SELECT * 
+FROM shop 
+WHERE 
+  category LIKE '%Fluorescence%' 
+  OR category LIKE '%Carat%' 
+  OR category LIKE '%Color Grade%' 
+  OR category LIKE '%Cutting Style%' 
+  OR name LIKE '%FLUORESCENCE%' 
+  OR category LIKE '%Round Brilliant%' 
+  OR subcategory LIKE '%CUT PROPORTION%' 
+  OR subcategory LIKE '%CUT GRADE%' 
+  OR subcategory LIKE '%POLISH%' 
+  OR subcategory LIKE '%SYMMETRY%' 
+  OR subcategory LIKE '%THIN-MEDIUM%' 
+  OR subcategory LIKE '%MEDIUM WHITISH BLUE%' 
+  AND 
+  (PRICE >= 0 AND PRICE <= 4.41);
